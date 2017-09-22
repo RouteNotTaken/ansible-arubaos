@@ -1,4 +1,57 @@
 #!/usr/bin/python
+# Copyright (c) 2017 Ansible Project
+# GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
+
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'community'
+}
+
+ANSIBLE_METADATA = {'metadata_version': '1.1',
+                    'status': ['preview'],
+                    'supported_by': 'network'}
+
+
+DOCUMENTATION = """
+---
+module: ArubaOSVlans
+version_added: "0.1"
+author: "RouteNotTaken"
+short_description: Manage VLANs on Aruba OS (hpe procruve) network devices
+description:
+  - Manage VLANs via ArubaOS API
+notes:
+  - Tested against 16.03.0005
+options:
+  name:
+    description:
+      - Name of the VLAN.
+  vlan_id:
+    description:
+      - ID of the VLAN.
+    required: true
+  aggregate:
+    description: List of VLANs definitions.
+  state:
+    description:
+      - State of the VLAN configuration.
+    default: present
+    choices: ['present', 'absent']
+"""
+
+EXAMPLES = """
+- name: Create vlan
+  ArubaOSVlans:
+    vlan_id: 4000
+    name: vlan-4000
+    state: present
+
+- name: Create aggregate of vlans
+  ArubaOSVlans:
+    aggregate:
+      - vlan_id: 4000
+      - {vlan_id: 4001, name: vlan-4001}
+"""
 
 from ansible.module_utils.basic import AnsibleModule
 
