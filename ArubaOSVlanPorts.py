@@ -10,43 +10,42 @@ ANSIBLE_METADATA = {'metadata_version': '1.1',
 
 DOCUMENTATION = """
 ---
-module: ArubaOSVlans
+module: ArubaOSVlanPorts
 version_added: "0.1"
 author: "RouteNotTaken"
-short_description: Manage VLANs on Aruba OS (hpe procruve) network devices
+short_description: Manage VLAN port assignments on Aruba OS (hpe procruve) network devices
 description:
-  - Manage VLANs via ArubaOS API
+  - Manage VLAN port assignments via ArubaOS API
 notes:
   - Tested against 16.03.0005
 options:
-  name:
-    description:
-      - Name of the VLAN.
   vlan_id:
     description:
-      - ID of the VLAN.
+      - ID of the VLAN. Int
     required: true
-  aggregate:
-    description: List of VLANs definitions.
-  state:
+  port_id:
     description:
-      - State of the VLAN configuration.
-    default: present
-    choices: ['present', 'absent']
+      - ID of the port. Str
+  port_mode:
+    description:
+      - tagged or untagged  
+  aggregate:
+    description: List of ports and VLAN assignments.
 """
 
 EXAMPLES = """
-- name: Create vlan
-  ArubaOSVlans:
-    vlan_id: 4000
-    name: vlan-4000
-    state: present
+- name: Assign vlan 200 to uplink
+  ArubaOSVlanPorts:
+    vlan_id: 200
+    port_id: 48
+    port_mode: tagged
 
-- name: Create aggregate of vlans
-  ArubaOSVlans:
+- name: Assign vlan 200 to access ports
+  ArubaOSVlanPorts:
     aggregate:
-      - vlan_id: 4000
-      - {vlan_id: 4001, name: vlan-4001}
+      - {vlan_id: 200, port_id: 10, port_mode: untagged}
+      - {vlan_id: 200, port_id: 11, port_mode: untagged}
+      - {vlan_id: 200, port_id: 12, port_mode: untagged}
 """
 
 from ansible.module_utils.basic import AnsibleModule
