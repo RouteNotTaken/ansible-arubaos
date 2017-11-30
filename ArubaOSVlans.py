@@ -131,7 +131,7 @@ def main():
     specs = {
         'host': {'required': True, 'type': 'str'},
         'username': {'required': True, 'type': 'str'},
-        'password': {'required': True, 'type': 'str'},
+        'password': {'required': True, 'type': 'str', 'no_log': True},
         'version': {'default': 'v1', 'type': 'str'},
         'aggregate': {'type': 'list', 'elements': 'dict', 'options': vlan_specs}
     }
